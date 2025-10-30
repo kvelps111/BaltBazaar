@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
         SchoolSeeder::class,
     ]);
 
+     $this->call([
+        CategorySeeder::class,
+    ]);
+
        
     }
 }
