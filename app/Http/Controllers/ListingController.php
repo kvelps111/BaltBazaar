@@ -30,4 +30,36 @@ class ListingController extends Controller
             'categories' => Category::all()
         ]);
     }
+
+    
+    public function create()
+    {
+        return view('listings.create', [
+            'schools' => School::orderBy('region')->orderBy('name')->get(),
+            'categories' => Category::orderBy('name')->get()
+        ]);
+    }
+
+
+    public function store(StoreListingRequest $request)
+    {
+        $validated = $request->validated();
+
+        
+        $listing = Listing::create(array_merge($validated, [
+            'user_id' => auth()->id()
+        ]));
+
+        
+        if ($request->hasFile('photos')) { 
+            foreach ($request->file('photos') as $photo) {
+                $listing->photos()->create([
+                    'photo' => $photo->store('photos', 'public')
+                ]);
+            }
+        }
+
+        return redirect()->route('listings.index')
+            ->with('success', 'Sludinājums veiksmīgi izveidots!');
+    }
 }
