@@ -62,4 +62,13 @@ class ListingController extends Controller
         return redirect()->route('listings.index')
             ->with('success', 'Sludinājums veiksmīgi izveidots!');
     }
+
+    public function myListings()
+    {
+        return view('listings.user.index', [
+            'listings' => auth()->user()->listings()
+                ->with('school', 'photos')
+                ->get()
+        ]);
+    }
 }

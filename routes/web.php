@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     //Listing routes
     Route::get('/listings', [ListingController::class, 'index'])->name('listings.index');
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
+    Route::get('/my-listings', [ListingController::class, 'myListings'])->name('listings.my');
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])
