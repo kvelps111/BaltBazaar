@@ -63,6 +63,14 @@ class ListingController extends Controller
             ->with('success', 'Sludinājums veiksmīgi izveidots!');
     }
 
+    public function show(Listing $listing)
+    {
+        
+        $listing->load('photos', 'school');
+
+        return view('listings.show', compact('listing'));
+    }
+
     public function myListings()
     {
         return view('listings.user.index', [

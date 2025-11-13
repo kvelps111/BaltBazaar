@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
     Route::get('/my-listings', [ListingController::class, 'myListings'])->name('listings.my');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
+    Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])
