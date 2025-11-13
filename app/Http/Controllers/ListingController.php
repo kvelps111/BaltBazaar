@@ -79,4 +79,13 @@ class ListingController extends Controller
                 ->get()
         ]);
     }
+
+    public function destroy(Listing $listing)
+    {
+        $this->authorize('delete', $listing);
+
+        $listing->delete();
+
+        return back()->with('success', 'Sludinājums dzēsts!');
+    }
 }
