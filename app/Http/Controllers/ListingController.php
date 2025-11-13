@@ -11,7 +11,11 @@ use App\Http\Requests\StoreListingRequest;
 
 class ListingController extends Controller
 {
-    
+    public function __construct()
+    {
+        $this->authorizeResource(Listing::class, 'listing');
+    }
+
     public function index()
     {
         $filters = [
