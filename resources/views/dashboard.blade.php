@@ -330,7 +330,7 @@
 
             <!-- Latest Listings -->
             <div class="listings-section">
-                <h2>Latest Listings</h2>
+                <h2>Jaunākie sludinājumi</h2>
 
                 @if($latestListings->count())
                     <div class="listings-grid">
