@@ -17,23 +17,30 @@ class ListingController extends Controller
     }
 
     public function index()
-    {
-        $filters = [
-            'region' => request('region'),
-            'school' => request('school'),
-            'category' => request('category')
-        ];
-
-        return view('listings.index', [
-            'listings' => Listing::with('school', 'photos')
-                ->latest()
-                ->filter($filters)
-                ->paginate(10),
-            'regions' => School::distinct()->pluck('region'),
-            'schools' => School::all(),
-            'categories' => Category::all()
-        ]);
+{
+    $filters = [
+        'region' => request('region'),
+        'school' => request('school'),
+        'category' => request('category')
+    ];
+    
+    $query = Listing::with('school', 'photos')
+        ->filter($filters);
+    
+    //  price sorting
+    if (request('sort_price')) {
+        $query->orderBy('price', request('sort_price'));
+    } else {
+        $query->latest();
     }
+    
+    return view('listings.index', [
+        'listings' => $query->paginate(10),
+        'regions' => School::distinct()->pluck('region'),
+        'schools' => School::all(),
+        'categories' => Category::all()
+    ]);
+}
 
     
     public function create()
