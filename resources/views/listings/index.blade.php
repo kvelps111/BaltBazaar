@@ -458,7 +458,7 @@
 
             {{-- Pagination --}}
             <div class="mt-10">
-                {{ $listings->links() }}
+                {{ $listings->links('components.pagination') }}
             </div>
         </div>
     </div>

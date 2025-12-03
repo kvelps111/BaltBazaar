@@ -35,7 +35,7 @@ class ListingController extends Controller
     }
     
     return view('listings.index', [
-        'listings' => $query->paginate(10),
+        'listings' => $query->paginate(12),
         'regions' => School::distinct()->pluck('region'),
         'schools' => School::all(),
         'categories' => Category::all()
