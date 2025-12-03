@@ -9,14 +9,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //Listing routes
+    // Listing routes
     Route::get('/listings', [ListingController::class, 'index'])->name('listings.index');
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
     Route::get('/my-listings', [ListingController::class, 'myListings'])->name('listings.my');
@@ -25,9 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->name('listings.destroy');
 
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';
