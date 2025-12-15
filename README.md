@@ -17,7 +17,7 @@ BaltBazaar ir studentu marketplace aplikācija, kas ļauj Baltijas studentiem dr
 
 ##  Izmantotās tehnoloģijas
 
-- **Laravel 10** — backend framework
+- **Laravel 12.36.1** — backend framework
 - **Blade** — šablonu dzinējs
 - **Tailwind CSS** — moderns UI dizains
 - **Sqlite** — datu bāze
