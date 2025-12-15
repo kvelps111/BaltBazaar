@@ -29,13 +29,15 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Validate all fields including phone number uniqueness
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'phone_number' => ['required', 'string', 'regex:/^\+?[0-9\s\-\(\)]+$/', 'min:8', 'max:20'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone_number' => ['required', 'string', 'unique:users,phone_number'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Create user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -44,9 +46,8 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('dashboard'));
     }
 }
