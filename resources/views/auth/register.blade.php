@@ -153,7 +153,8 @@
 
         input[type="text"],
         input[type="email"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="tel"] {
             width: 100%;
             padding: 0.875rem 1rem;
             border: 2px solid #e0e0e0;
@@ -166,7 +167,8 @@
 
         input[type="text"]:focus,
         input[type="email"]:focus,
-        input[type="password"]:focus {
+        input[type="password"]:focus,
+        input[type="tel"]:focus {
             outline: none;
             border-color: var(--balt-green);
             background: #fff;
@@ -280,6 +282,15 @@
                 <label for="email">Email</label>
                 <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" />
                 @error('email')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label for="phone_number">Telefona numurs</label>
+                <input id="phone_number" type="tel" name="phone_number" value="{{ old('phone_number') }}" required autocomplete="tel" placeholder="+371 12345678" />
+                @error('phone_number')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>

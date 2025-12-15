@@ -76,8 +76,8 @@ class ListingController extends Controller
 
     public function show(Listing $listing)
     {
-        
-        $listing->load('photos', 'school');
+
+        $listing->load('photos', 'school', 'user');
 
         return view('listings.show', compact('listing'));
     }

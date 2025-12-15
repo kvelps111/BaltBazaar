@@ -64,6 +64,24 @@
                     <p class="text-gray-500 text-sm">
                         Publicēts: {{ $listing->created_at->format('d.m.Y') }}
                     </p>
+
+                    <!-- Owner Contact Information -->
+                    <div class="border-t pt-4 mt-4">
+                        <h3 class="font-semibold text-gray-900 mb-2">Kontaktinformācija</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-700">
+                                <span class="font-medium">Pārdevējs:</span> {{ $listing->user->name }}
+                            </p>
+                            @if($listing->user->phone_number)
+                                <p class="text-gray-700 mt-2">
+                                    <span class="font-medium">Telefons:</span>
+                                    <a href="tel:{{ $listing->user->phone_number }}" class="text-[#2ecc71] hover:underline">
+                                        {{ $listing->user->phone_number }}
+                                    </a>
+                                </p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
