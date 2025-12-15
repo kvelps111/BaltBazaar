@@ -236,7 +236,7 @@
         <div class="pt-2 pb-3 space-y-1">
             <a href="{{ route('dashboard') }}" 
                class="mobile-nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                {{ __('Home') }}
+                {{ __('Mājas') }}
             </a>
             <a href="{{ route('listings.index') }}" 
                class="mobile-nav-link {{ request()->routeIs('listings.index') ? 'active' : '' }}">
