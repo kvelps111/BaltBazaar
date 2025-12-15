@@ -29,7 +29,7 @@ BaltBazaar ir studentu marketplace aplikācija, kas ļauj Baltijas studentiem dr
 ##  Uzstādīšana
 
 ```bash
-git clone https://github.com/tavs-lietotajvards/baltbazaar.git
+git clone https://github.com/kvelps111/baltbazaar.git
 cd baltbazaar
 
 composer install
