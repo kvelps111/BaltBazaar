@@ -1,3 +1,590 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    /* ==================== PAGE LAYOUT ==================== */
+    .page-container {
+        @apply min-h-screen py-12 bg-gradient-to-br from-gray-50 to-green-50/30;
+    }
+
+    .form-wrapper {
+        @apply max-w-xl mx-auto px-4;
+    }
+
+    .form-card {
+        @apply bg-white/95 backdrop-blur-lg rounded-2xl border border-green-500/10 shadow-xl p-8 md:p-10;
+    }
+
+    /* ==================== HEADERS ==================== */
+    .header-title {
+        @apply font-semibold text-xl text-gray-800 leading-tight;
+    }
+
+    .page-header {
+        @apply relative z-10 text-center px-4 pt-12 pb-8;
+        animation: fadeInDown 0.8s ease;
+    }
+
+    .page-title {
+        @apply text-4xl font-extrabold mb-2 bg-gradient-to-br from-green-500 to-green-600;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .page-subtitle {
+        @apply text-gray-600 text-lg;
+    }
+
+    /* ==================== FORM ELEMENTS ==================== */
+    .form-label {
+        @apply block font-bold text-gray-900 mb-2;
+    }
+
+    .form-label-photos {
+        @apply block font-bold text-gray-900 mb-3;
+    }
+
+    .form-input {
+        @apply w-full px-5 py-3 rounded-xl border-2 border-green-500/20
+               focus:border-green-500 focus:ring-4 focus:ring-green-500/10
+               transition-all duration-200;
+    }
+
+    .form-textarea {
+        @apply w-full px-5 py-3 rounded-xl border-2 border-green-500/20
+               focus:border-green-500 focus:ring-4 focus:ring-green-500/10
+               transition-all duration-200 resize-y;
+    }
+
+    .form-select {
+        @apply w-full px-5 py-3 rounded-xl border-2 border-green-500/20 bg-white
+               focus:border-green-500 focus:ring-4 focus:ring-green-500/10
+               transition-all duration-200;
+    }
+
+    .form-error {
+        @apply text-red-600 text-sm mt-1 block;
+    }
+
+    /* ==================== PHOTO UPLOAD ==================== */
+    .photo-upload-area {
+        @apply cursor-pointer border-2 border-dashed border-green-500/30 rounded-2xl p-8
+               text-center bg-green-500/5 hover:bg-green-500/10 hover:border-green-500
+               transition-all duration-200;
+    }
+
+    .photo-preview-grid {
+        @apply grid grid-cols-3 sm:grid-cols-4 gap-4 mt-6;
+    }
+
+    /* ==================== BUTTONS ==================== */
+    .btn-primary {
+        @apply inline-flex items-center justify-center
+               bg-gradient-to-br from-green-500 to-green-600
+               text-white font-bold px-8 py-3 rounded-xl
+               shadow-lg shadow-green-500/30
+               hover:-translate-y-0.5 hover:shadow-xl
+               transition-all duration-200;
+    }
+
+    .btn-secondary {
+        @apply px-8 py-3 rounded-xl font-bold text-gray-700
+               border-2 border-gray-200 bg-gray-100
+               hover:bg-gray-200 transition-all duration-200 text-center;
+    }
+
+    /* ==================== FORM ACTIONS ==================== */
+    .form-actions {
+        @apply flex flex-col sm:flex-row justify-end gap-4 pt-8 border-t border-green-500/10;
+    }
+
+    /* ==================== ANIMATED BACKGROUNDS ==================== */
+    .bg-animation {
+        @apply fixed w-full h-full top-0 left-0 overflow-hidden pointer-events-none;
+        z-index: 0;
+    }
+
+    .floating-circle {
+        @apply absolute rounded-full opacity-[0.06];
+        background: #2ecc71;
+        animation: float 25s infinite ease-in-out;
+    }
+
+    .floating-circle:nth-child(1) {
+        width: 400px;
+        height: 400px;
+        top: -200px;
+        left: -200px;
+        animation-delay: 0s;
+    }
+
+    .floating-circle:nth-child(2) {
+        width: 300px;
+        height: 300px;
+        top: 50%;
+        right: -150px;
+        animation-delay: 3s;
+        animation-duration: 20s;
+    }
+
+    .floating-circle:nth-child(3) {
+        width: 200px;
+        height: 200px;
+        bottom: -100px;
+        left: 30%;
+        animation-delay: 6s;
+        animation-duration: 18s;
+    }
+
+    .floating-circle:nth-child(4) {
+        width: 350px;
+        height: 350px;
+        top: 20%;
+        right: 15%;
+        animation-delay: 9s;
+        animation-duration: 22s;
+    }
+
+    .floating-circle:nth-child(5) {
+        width: 250px;
+        height: 250px;
+        bottom: 20%;
+        left: 10%;
+        animation-delay: 12s;
+        animation-duration: 28s;
+    }
+
+    /* ==================== FILTER SYSTEM ==================== */
+    .filter-container {
+        @apply sticky top-16 z-30 bg-white/95 backdrop-blur-xl border-b-2 border-green-500/10;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .filter-wrapper {
+        @apply max-w-7xl mx-auto px-6 py-4;
+    }
+
+    .filter-form {
+        @apply flex flex-wrap gap-3 items-center;
+    }
+
+    .filter-group {
+        @apply flex items-center bg-gradient-to-br from-gray-50 to-green-50/50 rounded-xl px-5 py-3
+               border-2 border-transparent hover:border-green-500
+               shadow-sm hover:shadow-md transition-all duration-200;
+    }
+
+    .filter-icon {
+        @apply h-5 w-5 mr-2 text-green-500 flex-shrink-0;
+    }
+
+    .filter-select {
+        @apply bg-transparent border-none text-gray-900 font-semibold text-sm cursor-pointer
+               focus:ring-0 focus:outline-none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .filter-btn {
+        @apply bg-gradient-to-br from-green-500 to-green-600 text-white font-bold
+               px-8 py-3 rounded-xl border-none cursor-pointer
+               shadow-lg shadow-green-500/30 hover:-translate-y-0.5 hover:shadow-xl
+               transition-all duration-200 text-base;
+    }
+
+    /* ==================== LISTING CARDS ==================== */
+    .listings-container {
+        @apply relative z-10 max-w-7xl mx-auto px-6 py-10;
+    }
+
+    .listings-grid {
+        @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+    }
+
+    .listing-card {
+        @apply relative bg-white rounded-2xl overflow-hidden border-2 border-green-500/10
+               shadow-md hover:shadow-2xl hover:border-green-500 hover:-translate-y-2
+               transition-all duration-300 flex flex-col;
+    }
+
+    .listing-image {
+        @apply relative h-64 bg-gradient-to-br from-gray-50 to-green-50 overflow-hidden;
+    }
+
+    .listing-card:hover .listing-image img {
+        @apply scale-110;
+    }
+
+    .listing-image img {
+        @apply h-full w-full object-contain transition-transform duration-500;
+    }
+
+    .listing-no-photo {
+        @apply h-full w-full flex items-center justify-center text-gray-400 font-semibold;
+    }
+
+    .price-badge {
+        @apply absolute bottom-4 right-4 bg-gradient-to-br from-green-500 to-green-600
+               text-white font-bold px-4 py-2 rounded-xl shadow-lg shadow-green-500/40 text-lg;
+    }
+
+    .listing-content {
+        @apply p-6 flex flex-col flex-grow;
+    }
+
+    .listing-title {
+        @apply text-lg font-bold text-gray-900 mb-2 truncate;
+    }
+
+    .listing-description {
+        @apply text-gray-600 text-sm mb-4 line-clamp-2;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .listing-meta {
+        @apply flex flex-wrap gap-2 mb-3;
+    }
+
+    .meta-badge {
+        @apply bg-gradient-to-br from-gray-50 to-green-50 text-green-600 font-semibold
+               text-xs px-3 py-1.5 rounded-lg border border-green-500/20;
+    }
+
+    .listing-time {
+        @apply text-gray-400 text-xs mt-auto;
+    }
+
+    /* ==================== AUTHENTICATION PAGES ==================== */
+    .auth-container {
+        @apply relative z-10 bg-white/95 backdrop-blur-lg p-12 rounded-2xl
+               shadow-2xl max-w-md w-full;
+        animation: slideUp 0.6s ease;
+    }
+
+    .auth-logo {
+        @apply text-center mb-8;
+    }
+
+    .auth-logo-title {
+        @apply text-3xl font-bold text-green-500 tracking-wide mb-2;
+        letter-spacing: 1px;
+    }
+
+    .auth-logo-subtitle {
+        @apply text-gray-600 text-base;
+    }
+
+    .auth-form-group {
+        @apply mb-6;
+    }
+
+    .auth-label {
+        @apply block font-semibold text-gray-900 mb-2 text-sm;
+    }
+
+    .auth-input {
+        @apply w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base
+               bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-500/10
+               transition-all duration-200;
+    }
+
+    .auth-error {
+        @apply text-red-500 text-sm mt-2 block;
+    }
+
+    .auth-footer {
+        @apply flex items-center justify-between mt-8 gap-4 flex-wrap;
+    }
+
+    .auth-link {
+        @apply text-gray-600 no-underline text-sm hover:text-green-500 transition-colors duration-200;
+    }
+
+    .auth-btn {
+        @apply bg-green-500 text-white px-10 py-3 border-none rounded-xl font-semibold
+               text-base cursor-pointer shadow-lg shadow-green-500/30
+               hover:bg-green-600 hover:-translate-y-0.5 hover:shadow-xl
+               transition-all duration-200;
+    }
+
+    .auth-session-status {
+        @apply bg-green-50 text-green-700 px-4 py-3.5 rounded-xl mb-6 text-sm border border-green-200;
+    }
+
+    .auth-remember {
+        @apply flex items-center gap-2;
+    }
+
+    .auth-remember input[type="checkbox"] {
+        @apply w-5 h-5 cursor-pointer;
+        accent-color: #2ecc71;
+    }
+
+    .auth-remember label {
+        @apply m-0 font-medium cursor-pointer text-sm;
+    }
+
+    .auth-divider {
+        @apply text-center mt-6 pt-6 border-t border-gray-200 text-gray-600 text-sm;
+    }
+
+    .auth-link-green {
+        @apply text-green-500 no-underline font-semibold hover:text-green-600 transition-colors duration-200;
+    }
+
+    /* ==================== EMPTY STATE ==================== */
+    .empty-state {
+        @apply max-w-lg mx-auto my-16 text-center bg-white/95 backdrop-blur-lg
+               rounded-2xl border-2 border-green-500/10 p-12;
+        animation: fadeInUp 0.8s ease;
+    }
+
+    .empty-state-icon {
+        @apply text-6xl mb-4;
+    }
+
+    .empty-state-title {
+        @apply text-2xl font-bold text-gray-900 mb-2;
+    }
+
+    .empty-state-description {
+        @apply text-gray-600 mb-8;
+    }
+
+    .btn-create {
+        @apply inline-block bg-gradient-to-br from-green-500 to-green-600
+               text-white font-bold px-8 py-3.5 rounded-xl no-underline
+               shadow-lg shadow-green-500/30 hover:-translate-y-0.5 hover:shadow-xl
+               transition-all duration-200;
+    }
+
+    /* ==================== USER LISTING CARDS (Horizontal Layout) ==================== */
+    .user-listings-container {
+        @apply max-w-4xl mx-auto grid gap-6;
+    }
+
+    .user-listing-card {
+        @apply bg-white/95 backdrop-blur-lg rounded-2xl border-2 border-green-500/10
+               overflow-hidden shadow-lg hover:shadow-2xl hover:border-green-500 hover:-translate-y-0.5
+               transition-all duration-300 flex flex-col md:flex-row gap-6 p-6;
+    }
+
+    .user-listing-image {
+        @apply w-full md:w-40 h-40 rounded-xl overflow-hidden bg-gradient-to-br from-gray-50 to-green-50
+               flex-shrink-0 border-2 border-green-500/10;
+    }
+
+    .user-listing-image img {
+        @apply w-full h-full object-cover;
+    }
+
+    .user-listing-no-image {
+        @apply w-full h-full flex items-center justify-center text-5xl;
+    }
+
+    .user-listing-content {
+        @apply flex-1 flex flex-col justify-between;
+    }
+
+    .user-listing-header {
+        @apply mb-4;
+    }
+
+    .user-listing-title {
+        @apply text-xl font-bold text-gray-900 mb-2;
+    }
+
+    .user-listing-school {
+        @apply text-green-600 font-semibold text-base mb-2;
+    }
+
+    .user-listing-description {
+        @apply text-gray-600 text-sm mb-3 line-clamp-2;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .user-listing-meta {
+        @apply flex gap-4 mb-4 flex-wrap text-sm text-gray-600;
+    }
+
+    .user-listing-price {
+        @apply inline-block bg-gradient-to-br from-green-500 to-green-600
+               text-white font-bold px-4 py-2 rounded-lg text-lg;
+    }
+
+    .user-listing-actions {
+        @apply flex gap-3 items-center flex-wrap;
+    }
+
+    .btn-view {
+        @apply inline-flex items-center gap-2 bg-gradient-to-br from-green-500 to-green-600
+               text-white font-semibold px-5 py-2.5 rounded-xl
+               shadow-md shadow-green-500/20 hover:-translate-y-0.5 hover:shadow-lg
+               transition-all duration-200 text-sm;
+    }
+
+    .btn-delete {
+        @apply inline-flex items-center gap-2 bg-red-50 text-red-600 font-semibold
+               px-5 py-2.5 rounded-xl border-2 border-red-200
+               hover:bg-red-100 hover:border-red-300 hover:-translate-y-0.5
+               transition-all duration-200 text-sm cursor-pointer;
+    }
+
+    /* ==================== VERIFICATION PAGE ==================== */
+    .verify-box {
+        @apply bg-white/95 backdrop-blur-lg rounded-2xl border-2 border-green-500/15
+               p-12 max-w-lg w-full shadow-2xl;
+        animation: fadeInUp 0.8s ease;
+    }
+
+    .verify-icon {
+        @apply w-20 h-20 bg-gradient-to-br from-green-500 to-green-600
+               rounded-full flex items-center justify-center text-5xl mx-auto mb-8
+               shadow-lg shadow-green-500/20;
+        animation: scaleIn 0.8s ease 0.2s both;
+    }
+
+    .verify-title {
+        @apply text-3xl font-extrabold text-gray-900 mb-4 text-center;
+        animation: fadeInUp 0.8s ease 0.3s both;
+    }
+
+    .verify-subtitle {
+        @apply text-center text-gray-600 text-base mb-8 leading-relaxed;
+        animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .verify-info-box {
+        @apply bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-8;
+        animation: fadeInUp 0.8s ease 0.5s both;
+    }
+
+    .verify-info-box p {
+        @apply text-sm text-gray-700 m-0 leading-relaxed;
+    }
+
+    .verify-button-group {
+        @apply flex flex-col gap-4 mb-6;
+        animation: fadeInUp 0.8s ease 0.6s both;
+    }
+
+    /* ==================== DASHBOARD PAGE ==================== */
+    .dashboard-hero {
+        @apply bg-white p-10 rounded-2xl shadow-xl text-center mb-8;
+        animation: slideUp 0.6s ease;
+    }
+
+    .dashboard-hero-title {
+        @apply text-4xl font-bold text-green-500 mb-4 tracking-wide;
+    }
+
+    .dashboard-hero-subtitle {
+        @apply text-gray-600 text-lg leading-relaxed mb-6 max-w-2xl mx-auto;
+    }
+
+    .dashboard-section {
+        @apply bg-white p-8 rounded-2xl shadow-xl;
+        animation: slideUp 0.7s ease;
+    }
+
+    .dashboard-section-title {
+        @apply text-3xl font-bold text-gray-900 mb-6;
+    }
+
+    .dashboard-grid {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
+    }
+
+    /* ==================== WELCOME PAGE ==================== */
+    .welcome-hero {
+        @apply relative z-10 text-center px-6 py-20;
+        animation: fadeInDown 0.8s ease;
+    }
+
+    .welcome-title {
+        @apply text-5xl md:text-6xl font-extrabold mb-6;
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .welcome-subtitle {
+        @apply text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto;
+    }
+
+    .welcome-buttons {
+        @apply flex flex-col sm:flex-row gap-4 justify-center items-center;
+    }
+
+    .btn-welcome-primary {
+        @apply inline-flex items-center gap-2 bg-gradient-to-br from-green-500 to-green-600
+               text-white font-bold px-8 py-4 rounded-xl text-lg
+               shadow-xl shadow-green-500/30 hover:-translate-y-1 hover:shadow-2xl
+               transition-all duration-200;
+    }
+
+    .btn-welcome-secondary {
+        @apply inline-flex items-center gap-2 bg-white text-green-600 font-bold
+               px-8 py-4 rounded-xl text-lg border-2 border-green-500
+               hover:bg-green-50 hover:-translate-y-1
+               transition-all duration-200;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.06;
+    }
+    33% {
+        transform: translate(40px, -40px) scale(1.2);
+        opacity: 0.1;
+    }
+    66% {
+        transform: translate(-30px, 30px) scale(0.9);
+        opacity: 0.04;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
