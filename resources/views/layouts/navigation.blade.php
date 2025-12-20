@@ -204,6 +204,13 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @if(Auth::user()->is_admin)
+                            <x-dropdown-link :href="route('admin.dashboard')">
+                                {{ __('⚡ Admin Panel') }}
+                            </x-dropdown-link>
+                            <div class="border-t border-gray-100"></div>
+                        @endif
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -265,6 +272,13 @@
             </div>
 
             <div class="space-y-1">
+                @if(Auth::user()->is_admin)
+                    <a href="{{ route('admin.dashboard') }}" class="mobile-nav-link">
+                        {{ __('⚡ Admin Panel') }}
+                    </a>
+                    <div class="border-t border-gray-200 my-2"></div>
+                @endif
+
                 <a href="{{ route('profile.edit') }}" class="mobile-nav-link">
                     {{ __('Profile') }}
                 </a>
