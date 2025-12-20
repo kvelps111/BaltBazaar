@@ -82,8 +82,67 @@
                             @endif
                         </div>
                     </div>
+
+                    <!-- Report Button -->
+                    @auth
+                        @if(auth()->id() !== $listing->user_id)
+                            <div class="border-t pt-4 mt-4">
+                                <button onclick="document.getElementById('reportModal').classList.remove('hidden')"
+                                        class="text-sm text-red-600 hover:text-red-700 hover:underline">
+                                    🚩 Ziņot par šo sludinājumu
+                                </button>
+                            </div>
+                        @endif
+                    @endauth
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Ziņot par sludinājumu</h3>
+
+            <form method="POST" action="{{ route('listings.report', $listing) }}">
+                @csrf
+
+                <div class="mb-4">
+                    <label for="reason" class="block text-sm font-medium text-gray-700 mb-2">
+                        Iemesls <span class="text-red-500">*</span>
+                    </label>
+                    <select name="reason" id="reason" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <option value="">Izvēlies iemeslu</option>
+                        <option value="Krāpšana">Krāpšana</option>
+                        <option value="Neatbilstošs saturs">Neatbilstošs saturs</option>
+                        <option value="Nepareiza kategorija">Nepareiza kategorija</option>
+                        <option value="Dublikāts">Dublikāts</option>
+                        <option value="Cits">Cits</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                        Papildu informācija
+                    </label>
+                    <textarea name="description" id="description" rows="3"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                              placeholder="Apraksti problēmu..."></textarea>
+                </div>
+
+                <div class="flex gap-3">
+                    <button type="button"
+                            onclick="document.getElementById('reportModal').classList.add('hidden')"
+                            class="flex-1 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition">
+                        Atcelt
+                    </button>
+                    <button type="submit"
+                            class="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition">
+                        Nosūtīt ziņojumu
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
