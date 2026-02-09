@@ -166,4 +166,102 @@
             </div>
         </div>
     </div>
+
+    <script>
+    function previewFiles() {
+        const input = document.getElementById('photosInput');
+        const previewContainer = document.getElementById('photoPreview');
+        const uploadArea = document.getElementById('photoUploadArea');
+
+        // Clear previous previews
+        previewContainer.innerHTML = '';
+
+        if (input.files && input.files.length > 0) {
+            // Hide upload area when files are selected
+            uploadArea.style.display = 'none';
+
+            Array.from(input.files).forEach((file, index) => {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'relative group';
+
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}"
+                             alt="Preview ${index + 1}"
+                             class="w-full h-48 object-cover rounded-lg">
+                        <button type="button"
+                                onclick="removeImage(${index})"
+                                class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600">
+                            ×
+                        </button>
+                    `;
+
+                    previewContainer.appendChild(previewItem);
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            // Add button to add more photos at the end
+            const addMoreButton = document.createElement('div');
+            addMoreButton.className = 'flex items-center justify-center';
+            addMoreButton.innerHTML = `
+                <button type="button"
+                        onclick="addMorePhotos()"
+                        class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors flex flex-col items-center justify-center text-gray-600 hover:text-blue-600">
+                    <span class="text-4xl mb-2">+</span>
+                    <span class="font-semibold">Pievienot vēl</span>
+                </button>
+            `;
+            previewContainer.appendChild(addMoreButton);
+
+        } else {
+            // Show upload area if no files
+            uploadArea.style.display = 'flex';
+        }
+    }
+
+    function addMorePhotos() {
+        const input = document.getElementById('photosInput');
+        const tempInput = document.createElement('input');
+        tempInput.type = 'file';
+        tempInput.multiple = true;
+        tempInput.accept = 'image/*';
+        
+        tempInput.onchange = function(e) {
+            const dt = new DataTransfer();
+            
+            // Add existing files
+            Array.from(input.files).forEach(file => {
+                dt.items.add(file);
+            });
+            
+            // Add new files
+            Array.from(tempInput.files).forEach(file => {
+                dt.items.add(file);
+            });
+            
+            input.files = dt.files;
+            previewFiles();
+        };
+        
+        tempInput.click();
+    }
+
+    function removeImage(index) {
+        const input = document.getElementById('photosInput');
+        const dt = new DataTransfer();
+
+        Array.from(input.files).forEach((file, i) => {
+            if (i !== index) {
+                dt.items.add(file);
+            }
+        });
+
+        input.files = dt.files;
+        previewFiles();
+    }
+</script>
 </x-app-layout>
