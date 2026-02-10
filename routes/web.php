@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Auth\PhoneVerificationController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ReportsController as AdminReportsController;
 use App\Http\Controllers\Admin\UsersController as AdminUsersController;
@@ -18,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
 
     // Listing routes
     Route::get('/listings', [ListingController::class, 'index'])->name('listings.index');
@@ -32,6 +34,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    //Phone verification
+    Route::post('/verify/phone/send', [PhoneVerificationController::class, 'sendCode'])->name('verification.phone.send');
+    Route::post('/verify/phone/verify', [PhoneVerificationController::class, 'verifyCode'])->name('verification.phone.verify');
+    Route::get('/verify/phone', [PhoneVerificationController::class, 'prompt'])->name('verification.phone.prompt');
+    Route::post('/verify/phone/resend', [App\Http\Controllers\Auth\PhoneVerificationController::class, 'resendCode'])->name('verification.phone.resend');
 });
 
 // Admin routes

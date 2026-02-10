@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Validation\ValidationException;
+use Twilio\Rest\Client;
 
 class RegisteredUserController extends Controller
 {
@@ -31,16 +32,25 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // Validate all fields including phone number uniqueness
+        // Validate all fields - phone is now just 8 digits
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone_number' => ['required', 'string', 'unique:users,phone_number'],
+            'phone_number' => [
+                'required', 
+                'string',
+                'regex:/^[0-9]{8}$/'
+            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'phone_number.regex' => 'Phone number must be 8 digits'
         ]);
 
+        // Add +371 prefix to phone number
+        $phoneNumber = '+371' . $request->phone_number;
+
         // Check if phone number or email is banned
-        $bannedByPhone = BannedUser::where('phone_number', $request->phone_number)->first();
+        $bannedByPhone = BannedUser::where('phone_number', $phoneNumber)->first();
         $bannedByEmail = BannedUser::where('email', $request->email)->first();
 
         if ($bannedByPhone) {
@@ -55,17 +65,44 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        // Create user
+        // Check if phone number already exists
+        if (User::where('phone_number', $phoneNumber)->exists()) {
+            throw ValidationException::withMessages([
+                'phone_number' => ['This phone number is already registered.'],
+            ]);
+        }
+
+        // Create user with full international phone number
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone_number' => $request->phone_number,
+            'phone_number' => $phoneNumber,
             'password' => Hash::make($request->password),
         ]);
 
         event(new Registered($user));
         Auth::login($user);
 
-        return redirect(route('dashboard'));
+        // Generate and send verification code
+        $code = rand(100000, 999999);
+        
+        session([
+            'verification_code' => $code,
+            'verification_phone' => $phoneNumber,
+            'code_sent_at' => now()
+        ]);
+
+        // Send SMS via Twilio
+        $twilio = new Client(
+            config('services.twilio.sid'),
+            config('services.twilio.token')
+        );
+
+        $twilio->messages->create($phoneNumber, [
+            'from' => config('services.twilio.phone'),
+            'body' => "Your BaltBazaar verification code is: {$code}"
+        ]);
+
+        return redirect()->route('verification.phone.prompt');
     }
 }

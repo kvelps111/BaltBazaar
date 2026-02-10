@@ -38,9 +38,23 @@
 
             <!-- Phone Number -->
             <div class="auth-form-group">
-                <label for="phone_number" class="auth-label">Telefona numurs</label>
-                <input id="phone_number" type="tel" name="phone_number" value="{{ old('phone_number') }}"
-                       required autocomplete="tel" placeholder="+371 12345678" class="auth-input" />
+                <label for="phone_number" class="auth-label">Phone Number</label>
+                <div class="flex">
+                    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
+                        +371
+                    </span>
+                    <input 
+                        id="phone_number" 
+                        name="phone_number" 
+                        type="text" 
+                        class="auth-input rounded-l-none" 
+                        placeholder="20000000"
+                        value="{{ old('phone_number') }}"
+                        maxlength="8"
+                        pattern="[0-9]{8}"
+                        required 
+                    />
+                </div>
                 @error('phone_number')
                     <span class="auth-error">{{ $message }}</span>
                 @enderror
