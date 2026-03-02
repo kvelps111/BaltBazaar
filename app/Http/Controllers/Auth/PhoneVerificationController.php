@@ -55,9 +55,14 @@ class PhoneVerificationController extends Controller
     }
 
     public function prompt()
-    {
-        return view('auth.verify-phone');
+{
+    // If already verified, redirect to dashboard
+    if (auth()->user()->phone_verified_at) {
+        return redirect()->route('dashboard');
     }
+    
+    return view('auth.verify-phone');
+}
 
     public function resendCode(Request $request)
     {
