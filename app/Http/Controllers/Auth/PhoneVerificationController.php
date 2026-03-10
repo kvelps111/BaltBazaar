@@ -44,8 +44,9 @@ class PhoneVerificationController extends Controller
         ]);
 
         if ($request->code == session('verification_code')) {
-            // Mark user as phone verified
-            $request->user()->update(['phone_verified_at' => now()]);
+            $user = $request->user();
+            $user->phone_verified_at = now();
+            $user->save();
             session()->forget(['verification_code', 'verification_phone', 'code_sent_at']);
             
             return redirect()->route('dashboard');
