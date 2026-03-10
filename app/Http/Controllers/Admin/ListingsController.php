@@ -57,10 +57,6 @@ class ListingsController extends Controller
 
     public function destroy(Listing $listing)
     {
-        // Delete associated photos
-        $listing->photos()->delete();
-
-        // Delete the listing
         $listing->delete();
 
         return redirect()->route('admin.reports.index')->with('success', 'Listing deleted successfully.');
