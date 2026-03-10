@@ -8,7 +8,6 @@ use App\Models\School;
 use App\Models\Category;
 use App\Http\Requests\StoreListingRequest;
 
-
 class ListingController extends Controller
 {
     public function __construct()
@@ -17,33 +16,32 @@ class ListingController extends Controller
     }
 
     public function index()
-{
-    $filters = [
-        'region' => request('region'),
-        'school' => request('school'),
-        'category' => request('category')
-    ];
-    
-    $query = Listing::with('school', 'photos')
-        ->filter($filters);
-    
-    // price sorting
-    $sortPrice = in_array(request('sort_price'), ['asc', 'desc']) ? request('sort_price') : null;
-    if ($sortPrice) {
-        $query->orderBy('price', $sortPrice);
-    } else {
-        $query->latest();
-    }
-    
-    return view('listings.index', [
-        'listings' => $query->paginate(12),
-        'regions' => School::distinct()->pluck('region'),
-        'schools' => School::all(),
-        'categories' => Category::all()
-    ]);
-}
+    {
+        $filters = [
+            'region' => request('region'),
+            'school' => request('school'),
+            'category' => request('category')
+        ];
 
-    
+        $query = Listing::with('school', 'photos')
+            ->filter($filters);
+
+        // price sorting
+        $sortPrice = in_array(request('sort_price'), ['asc', 'desc']) ? request('sort_price') : null;
+        if ($sortPrice) {
+            $query->orderBy('price', $sortPrice);
+        } else {
+            $query->latest();
+        }
+
+        return view('listings.index', [
+            'listings' => $query->paginate(12),
+            'regions' => School::distinct()->pluck('region'),
+            'schools' => School::all(),
+            'categories' => Category::all()
+        ]);
+    }
+
     public function create()
     {
         return view('listings.create', [
@@ -52,18 +50,15 @@ class ListingController extends Controller
         ]);
     }
 
-
     public function store(StoreListingRequest $request)
     {
         $validated = $request->validated();
 
-        
         $listing = Listing::create(array_merge($validated, [
             'user_id' => auth()->id()
         ]));
 
-        
-        if ($request->hasFile('photos')) { 
+        if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
                 $listing->photos()->create([
                     'photo' => $photo->store('photos', 'public')
@@ -77,7 +72,6 @@ class ListingController extends Controller
 
     public function show(Listing $listing)
     {
-
         $listing->load('photos', 'school', 'user');
 
         return view('listings.show', compact('listing'));

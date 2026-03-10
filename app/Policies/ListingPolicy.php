@@ -4,49 +4,39 @@ namespace App\Policies;
 
 use App\Models\Listing;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
-    
-    class ListingPolicy
+
+class ListingPolicy
+{
+    public function viewAny(User $user): bool
     {
-        /**
-         * Determine whether the user can view any models.
-         */
-        public function viewAny(User $user): bool
-    {
-        return true; // anyone logged in can see listings
+        return true;
     }
-    
+
     public function view(User $user, Listing $listing): bool
     {
-        return true; // anyone logged in can view a single listing
+        return true;
     }
-    
+
     public function create(User $user): bool
     {
-        return true; // anyone logged in can create
+        return true;
     }
-    
+
     public function update(User $user, Listing $listing): bool
     {
-        return $user->id === $listing->user_id; // only owner can update
+        return $user->id === $listing->user_id;
     }
-    
+
     public function delete(User $user, Listing $listing): bool
     {
-        return $user->id === $listing->user_id; // only owner can delete
+        return $user->id === $listing->user_id;
     }
-    
-    /**
-     * Determine whether the user can restore the model.
-     */
+
     public function restore(User $user, Listing $listing): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
     public function forceDelete(User $user, Listing $listing): bool
     {
         return false;
