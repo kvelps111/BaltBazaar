@@ -22,8 +22,9 @@ class ListingsController extends Controller
             ->filter($filters);
 
         // Price sorting
-        if (request('sort_price')) {
-            $query->orderBy('price', request('sort_price'));
+        $sortPrice = in_array(request('sort_price'), ['asc', 'desc']) ? request('sort_price') : null;
+        if ($sortPrice) {
+            $query->orderBy('price', $sortPrice);
         } else {
             $query->latest();
         }

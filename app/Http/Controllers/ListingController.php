@@ -27,9 +27,10 @@ class ListingController extends Controller
     $query = Listing::with('school', 'photos')
         ->filter($filters);
     
-    //  price sorting
-    if (request('sort_price')) {
-        $query->orderBy('price', request('sort_price'));
+    // price sorting
+    $sortPrice = in_array(request('sort_price'), ['asc', 'desc']) ? request('sort_price') : null;
+    if ($sortPrice) {
+        $query->orderBy('price', $sortPrice);
     } else {
         $query->latest();
     }
