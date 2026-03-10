@@ -88,7 +88,7 @@ class ListingController extends Controller
         return view('listings.user.index', [
             'listings' => auth()->user()->listings()
                 ->with('school', 'photos')
-                ->get()
+                ->paginate(12)
         ]);
     }
 

@@ -84,6 +84,10 @@
                     </div>
                 @endforeach
             </div>
+
+            <div class="mt-6">
+                {{ $listings->links() }}
+            </div>
         @endif
     </div>
 </x-app-layout>
