@@ -27,7 +27,7 @@ class StoreListingRequest extends FormRequest
             'price'       => 'required|numeric|min:0',
             'school_id'   => 'required|exists:schools,id',
             'category_id' => 'required|exists:categories,id',
-            'photos'      => 'required|array|max:10',
+            'photos'      => 'required|array|min:1|max:10',
             'photos.*'    => 'image|max:8192',
         ];
     }
