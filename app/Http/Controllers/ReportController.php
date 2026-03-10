@@ -15,6 +15,14 @@ class ReportController extends Controller
             'description' => 'nullable|string|max:1000',
         ]);
 
+        $alreadyReported = Report::where('listing_id', $listing->id)
+            ->where('user_id', auth()->id())
+            ->exists();
+
+        if ($alreadyReported) {
+            return redirect()->back()->with('error', 'Jūs jau esat ziņojis par šo sludinājumu.');
+        }
+
         Report::create([
             'listing_id' => $listing->id,
             'user_id' => auth()->id(),
