@@ -65,7 +65,12 @@ class PhoneVerificationController extends Controller
 
     public function resendCode(Request $request)
     {
-        $phone = session('verification_phone');
+        $phone = session('verification_phone') ?? $request->user()->phone_number;
+
+        if (!$phone) {
+            return back()->withErrors(['code' => 'No phone number found. Please enter your number first.']);
+        }
+
         $code = rand(100000, 999999);
 
         session([
