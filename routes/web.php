@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Legal pages - public
+Route::get('/privacy', fn() => view('legal.privacy'))->name('legal.privacy');
+Route::get('/terms', fn() => view('legal.terms'))->name('legal.terms');
+
 // Phone verification routes - auth only, NO phone.verified middleware
 Route::middleware(['auth'])->group(function () {
     Route::get('/verify/phone', [PhoneVerificationController::class, 'prompt'])->name('verification.phone.prompt');

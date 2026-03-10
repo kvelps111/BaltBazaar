@@ -32,5 +32,16 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-200 bg-white mt-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+                <span>&copy; {{ date('Y') }} BaltBazaar. Visas tiesības aizsargātas.</span>
+                <div class="flex gap-6">
+                    <a href="{{ route('legal.privacy') }}" class="hover:text-gray-800 transition-colors">Privātuma politika</a>
+                    <a href="{{ route('legal.terms') }}" class="hover:text-gray-800 transition-colors">Lietošanas noteikumi</a>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
