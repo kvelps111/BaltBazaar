@@ -55,36 +55,34 @@ class PhoneVerificationController extends Controller
     }
 
     public function prompt()
-{
-    // If already verified, redirect to dashboard
-    if (auth()->user()->phone_verified_at) {
-        return redirect()->route('dashboard');
+    {
+        if (auth()->user()->phone_verified_at) {
+            return redirect()->route('dashboard');
+        }
+
+        return view('auth.verify-phone');
     }
-    
-    return view('auth.verify-phone');
-}
 
     public function resendCode(Request $request)
     {
-        $twilio->getHttpClient()->setVerifySsl(false);
-    $phone = session('verification_phone');
-    $code = rand(100000, 999999);
-    
-    session([
-        'verification_code' => $code,
-        'code_sent_at' => now()
-    ]);
+        $phone = session('verification_phone');
+        $code = rand(100000, 999999);
 
-    $twilio = new Client(
-        config('services.twilio.sid'),
-        config('services.twilio.token')
-    );
+        session([
+            'verification_code' => $code,
+            'code_sent_at' => now()
+        ]);
 
-    $twilio->messages->create($phone, [
-        'from' => config('services.twilio.phone'),
-        'body' => "Your BaltBazaar verification code is: {$code}"
-    ]);
+        $twilio = new Client(
+            config('services.twilio.sid'),
+            config('services.twilio.token')
+        );
 
-    return back()->with('success', 'New code sent!');
-}
+        $twilio->messages->create($phone, [
+            'from' => config('services.twilio.phone'),
+            'body' => "Your BaltBazaar verification code is: {$code}"
+        ]);
+
+        return back()->with('success', 'New code sent!');
+    }
 }

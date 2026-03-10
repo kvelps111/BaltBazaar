@@ -65,12 +65,5 @@
             </form>
         </div>
 
-        @if ($errors->any())
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mt-4">
-                @foreach ($errors->all() as $error)
-                    <p class="text-red-600 text-sm my-1">{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
     </div>
 </x-guest-layout>
