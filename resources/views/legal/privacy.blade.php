@@ -30,6 +30,6 @@
         <p>Varat dzēst savu kontu sadaļā "Profils". Pēc konta dzēšanas jūsu personas dati tiek izdzēsti, izņemot datus, kas nepieciešami juridisko pienākumu izpildei.</p>
 
         <h2>7. Kontakti</h2>
-        <p>Ja jums ir jautājumi par šo politiku, sazinieties ar platformas administratoru.</p>
+        <p>Ja jums ir jautājumi par šo politiku, sazinieties ar mums: <a href="mailto:baltbazaarsu@gmail.com">baltbazaarsu@gmail.com</a></p>
     </div>
 </x-app-layout>

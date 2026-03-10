@@ -32,5 +32,8 @@
 
         <h2>7. Noteikumu maiņa</h2>
         <p>Mēs paturam tiesības mainīt šos noteikumus. Turpinot lietot platformu pēc izmaiņu publicēšanas, jūs piekrītat jaunajiem noteikumiem.</p>
+
+        <h2>8. Atbalsts</h2>
+        <p>Jautājumu vai problēmu gadījumā sazinieties ar mums: <a href="mailto:baltbazaarsu@gmail.com">baltbazaarsu@gmail.com</a></p>
     </div>
 </x-app-layout>
