@@ -56,6 +56,6 @@ class Listing extends Model
             $query->where('category_id', $filters['category']);
         }
 
-        
+        return $query;
     }
 }
