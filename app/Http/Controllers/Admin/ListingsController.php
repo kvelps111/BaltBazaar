@@ -60,6 +60,6 @@ class ListingsController extends Controller
     {
         $listing->delete();
 
-        return redirect()->route('admin.reports.index')->with('success', 'Listing deleted successfully.');
+        return redirect()->route('admin.listings.index')->with('success', 'Listing deleted successfully.');
     }
 }
