@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Http\Requests\StoreListingRequest;
 use App\Http\Requests\UpdateListingRequest;
 use App\Models\ListingPhoto;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 
 class ListingController extends Controller
@@ -55,6 +56,24 @@ class ListingController extends Controller
 
     public function store(StoreListingRequest $request)
     {
+        $user = auth()->user();
+        $rateKey = 'create-listing:' . $user->id;
+
+        if (RateLimiter::tooManyAttempts($rateKey, 5)) {
+            $seconds = RateLimiter::availableIn($rateKey);
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['limit' => "Pārāk daudz sludinājumu. Mēģiniet vēlreiz pēc {$seconds} sekundēm."]);
+        }
+
+        if ($user->listings()->whereNull('deleted_at')->count() >= 20) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['limit' => 'Jums jau ir 20 aktīvi sludinājumi. Dzēsiet kādu pirms jauna pievienošanas.']);
+        }
+
+        RateLimiter::hit($rateKey, 86400);
+
         $validated = $request->validated();
 
         $listing = Listing::create(array_merge($validated, [

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\BannedUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -53,6 +54,13 @@ class UsersController extends Controller
 
         // Delete the user account
         $user->delete();
+
+        Log::channel('daily')->info('ADMIN BAN', [
+            'admin_id'    => auth()->id(),
+            'admin_email' => auth()->user()->email,
+            'banned_user' => $user->email,
+            'reason'      => $validated['reason'],
+        ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User has been banned successfully.');
     }

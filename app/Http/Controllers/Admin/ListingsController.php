@@ -7,6 +7,7 @@ use App\Models\Listing;
 use App\Models\School;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ListingsController extends Controller
 {
@@ -58,6 +59,14 @@ class ListingsController extends Controller
 
     public function destroy(Listing $listing)
     {
+        Log::channel('daily')->info('ADMIN DELETE LISTING', [
+            'admin_id'    => auth()->id(),
+            'admin_email' => auth()->user()->email,
+            'listing_id'  => $listing->id,
+            'listing'     => $listing->title,
+            'owner'       => $listing->user->email ?? 'unknown',
+        ]);
+
         $listing->delete();
 
         return redirect()->route('admin.listings.index')->with('success', 'Listing deleted successfully.');

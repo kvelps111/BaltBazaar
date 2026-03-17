@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReportsController extends Controller
 {
@@ -30,6 +31,13 @@ class ReportsController extends Controller
         ]);
 
         $report->update($validated);
+
+        Log::channel('daily')->info('ADMIN REPORT STATUS', [
+            'admin_id'    => auth()->id(),
+            'admin_email' => auth()->user()->email,
+            'report_id'   => $report->id,
+            'new_status'  => $validated['status'],
+        ]);
 
         return redirect()->back()->with('success', 'Report status updated successfully.');
     }
