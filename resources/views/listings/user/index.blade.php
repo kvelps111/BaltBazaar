@@ -57,8 +57,8 @@
 
                             <!-- Meta Info -->
                             <div class="user-listing-meta">
-                                <span>📁 {{ $listing->category->name }}</span>
-                                <span>⏰ {{ $listing->created_at->diffForHumans() }}</span>
+                                <span> {{ $listing->category->name }}</span>
+                                <span> {{ $listing->created_at->diffForHumans() }}</span>
                             </div>
 
                             <!-- Price -->
@@ -70,14 +70,18 @@
                         <!-- Actions -->
                         <div class="user-listing-actions">
                             <a href="{{ route('listings.show', $listing) }}" class="btn-view">
-                                👁 Skatīt
+                                 Skatīt
+                            </a>
+
+                            <a href="{{ route('listings.edit', $listing) }}" class="btn-view">
+                                 Rediģēt
                             </a>
 
                             <form action="{{ route('listings.destroy', $listing) }}" method="POST" class="m-0">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-delete" onclick="return confirm('Vai tiešām vēlaties dzēst šo sludinājumu?')">
-                                    🗑 Dzēst
+                                     Dzēst
                                 </button>
                             </form>
                         </div>

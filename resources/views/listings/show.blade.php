@@ -83,6 +83,27 @@
                         </div>
                     </div>
 
+                    <!-- Owner Actions -->
+                    @auth
+                        @if(auth()->id() === $listing->user_id)
+                            <div class="border-t pt-4 mt-4 flex gap-3">
+                                <a href="{{ route('listings.edit', $listing) }}"
+                                   class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition">
+                                    ✏️ Rediģēt sludinājumu
+                                </a>
+                                <form action="{{ route('listings.destroy', $listing) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            onclick="return confirm('Vai tiešām vēlaties dzēst šo sludinājumu?')"
+                                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition">
+                                        🗑 Dzēst
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth
+
                     <!-- Report Button -->
                     @auth
                         @if(auth()->id() !== $listing->user_id)
