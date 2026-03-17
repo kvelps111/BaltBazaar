@@ -26,6 +26,14 @@ class UsersController extends Controller
 
     public function ban(Request $request, User $user)
     {
+        if ($user->is_admin) {
+            return redirect()->back()->with('error', 'Admin accounts cannot be banned.');
+        }
+
+        if (BannedUser::where('user_id', $user->id)->exists()) {
+            return redirect()->back()->with('error', 'This user is already banned.');
+        }
+
         $validated = $request->validate([
             'reason' => 'required|string|max:255',
             'notes' => 'nullable|string|max:1000',

@@ -91,7 +91,6 @@ class ListingController extends Controller
 
     public function edit(Listing $listing)
     {
-        $this->authorize('update', $listing);
         $listing->load('photos');
 
         return view('listings.edit', [
@@ -103,7 +102,6 @@ class ListingController extends Controller
 
     public function update(UpdateListingRequest $request, Listing $listing)
     {
-        $this->authorize('update', $listing);
 
         $listing->update($request->only(['title', 'description', 'price', 'school_id', 'category_id']));
 

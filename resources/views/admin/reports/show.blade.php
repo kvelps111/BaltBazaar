@@ -24,7 +24,7 @@
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg mb-6">
                     {{ session('success') }}
                 </div>
-            @endif>
+            @endif
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Report Details -->
