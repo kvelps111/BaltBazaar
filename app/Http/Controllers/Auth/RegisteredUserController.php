@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Validation\ValidationException;
@@ -93,15 +94,22 @@ class RegisteredUserController extends Controller
         ]);
 
         // Send SMS via Twilio
-        $twilio = new Client(
-            config('services.twilio.sid'),
-            config('services.twilio.token')
-        );
+        try {
+            $twilio = new Client(
+                config('services.twilio.sid'),
+                config('services.twilio.token')
+            );
 
-        $twilio->messages->create($phoneNumber, [
-            'from' => config('services.twilio.phone'),
-            'body' => "Your BaltBazaar verification code is: {$code}"
-        ]);
+            $twilio->messages->create($phoneNumber, [
+                'from' => config('services.twilio.phone'),
+                'body' => "Your BaltBazaar verification code is: {$code}"
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to send verification SMS', [
+                'phone' => $phoneNumber,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         return redirect()->route('verification.phone.prompt');
     }
