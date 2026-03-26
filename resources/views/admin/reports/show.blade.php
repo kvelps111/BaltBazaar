@@ -74,7 +74,7 @@
                     <div class="admin-section">
                         <h2 class="admin-section-title">Reported Listing</h2>
                         <div class="admin-section-content">
-                            @if($report->listing)
+                            @if($report->listing && !$report->listing->trashed())
                                 <div class="admin-detail-row">
                                     <span class="admin-detail-label">Title:</span>
                                     <span class="admin-detail-value">{{ $report->listing->title }}</span>
@@ -172,7 +172,7 @@
                             </form>
 
                             <!-- Delete Listing -->
-                            @if($report->listing)
+                            @if($report->listing && !$report->listing->trashed())
                                 <form action="{{ route('admin.listings.destroy', $report->listing) }}"
                                       method="POST"
                                       onsubmit="return confirm('Are you sure you want to delete this listing? This action cannot be undone.')">
@@ -184,7 +184,7 @@
                                 </form>
                             @else
                                 <button type="button" class="admin-btn-danger w-full opacity-50 cursor-not-allowed" disabled>
-                                    Listing Already Deleted
+                                    Listing Deleted
                                 </button>
                             @endif
                         </div>
