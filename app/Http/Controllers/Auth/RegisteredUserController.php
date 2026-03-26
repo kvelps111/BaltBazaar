@@ -93,7 +93,11 @@ class RegisteredUserController extends Controller
             'code_sent_at' => now()
         ]);
 
-        // Send SMS via Twilio
+        // Send SMS via Twilio (skip if credentials are not configured)
+        if (!config('services.twilio.sid') || !config('services.twilio.token')) {
+            return redirect()->route('verification.phone.prompt');
+        }
+
         try {
             $twilio = new Client(
                 config('services.twilio.sid'),
@@ -104,7 +108,30 @@ class RegisteredUserController extends Controller
                 'from' => config('services.twilio.phone'),
                 'body' => "Your BaltBazaar verification code is: {$code}"
             ]);
+        } catch (\Twilio\Exceptions\RestException $e) {
+            if ($e->getStatusCode() === 400) {
+                // HTTP 400 means Twilio rejected the number as invalid — roll back
+                Auth::logout();
+                $user->delete();
+
+                Log::warning('Registration rejected: invalid phone number', [
+                    'phone'       => $phoneNumber,
+                    'twilio_code' => $e->getCode(),
+                    'error'       => $e->getMessage(),
+                ]);
+
+                throw ValidationException::withMessages([
+                    'phone_number' => ['This phone number is invalid or cannot receive SMS.'],
+                ]);
+            }
+
+            // Non-400 errors (auth, rate limits, etc.) — log and continue
+            Log::error('Failed to send verification SMS', [
+                'phone' => $phoneNumber,
+                'error' => $e->getMessage(),
+            ]);
         } catch (\Exception $e) {
+            // Configuration or network errors — log and continue
             Log::error('Failed to send verification SMS', [
                 'phone' => $phoneNumber,
                 'error' => $e->getMessage(),
