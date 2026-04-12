@@ -73,11 +73,7 @@
                                  Skatīt
                             </a>
 
-                            <a href="{{ route('listings.edit', $listing) }}" class="btn-view">
-                                 Rediģēt
-                            </a>
-
-                            <form action="{{ route('listings.destroy', $listing) }}" method="POST" class="m-0">
+<form action="{{ route('listings.destroy', $listing) }}" method="POST" class="m-0">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-delete" onclick="return confirm('Vai tiešām vēlaties dzēst šo sludinājumu?')">

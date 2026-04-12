@@ -7,10 +7,7 @@ use App\Models\Listing;
 use App\Models\School;
 use App\Models\Category;
 use App\Http\Requests\StoreListingRequest;
-use App\Http\Requests\UpdateListingRequest;
-use App\Models\ListingPhoto;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Storage;
 
 class ListingController extends Controller
 {
@@ -106,47 +103,6 @@ class ListingController extends Controller
                 ->with('school', 'photos')
                 ->paginate(12)
         ]);
-    }
-
-    public function edit(Listing $listing)
-    {
-        $listing->load('photos');
-
-        return view('listings.edit', [
-            'listing'    => $listing,
-            'schools'    => School::orderBy('region')->orderBy('name')->get(),
-            'categories' => Category::orderBy('name')->get(),
-        ]);
-    }
-
-    public function update(UpdateListingRequest $request, Listing $listing)
-    {
-
-        $listing->update($request->only(['title', 'description', 'price', 'school_id', 'category_id']));
-
-        // Remove photos the user marked for deletion
-        if ($request->filled('remove_photos')) {
-            $toRemove = ListingPhoto::whereIn('id', $request->remove_photos)
-                ->where('listing_id', $listing->id)
-                ->get();
-
-            foreach ($toRemove as $photo) {
-                Storage::disk('public')->delete($photo->photo);
-                $photo->delete();
-            }
-        }
-
-        // Add new photos
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $listing->photos()->create([
-                    'photo' => $photo->store('photos', 'public'),
-                ]);
-            }
-        }
-
-        return redirect()->route('listings.show', $listing)
-            ->with('success', 'Sludinājums veiksmīgi atjaunināts!');
     }
 
     public function destroy(Listing $listing)

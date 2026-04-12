@@ -39,9 +39,7 @@ Route::middleware(['auth', 'phone.verified'])->group(function () {
     Route::get('/my-listings', [ListingController::class, 'myListings'])->name('listings.my');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
     Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
-    Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->name('listings.edit');
-    Route::patch('/listings/{listing}', [ListingController::class, 'update'])->name('listings.update');
-    Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->name('listings.destroy');
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->name('listings.destroy');
 
     // Report routes
     Route::post('/listings/{listing}/report', [ReportController::class, 'store'])->name('listings.report');
