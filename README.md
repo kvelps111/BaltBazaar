@@ -20,7 +20,7 @@ BaltBazaar ir studentu marketplace aplikācija, kas ļauj Baltijas studentiem dr
 - **Laravel 12.36.1** — backend framework
 - **Blade** — šablonu dzinējs
 - **Tailwind CSS** — moderns UI dizains
-- **Sqlite** — datu bāze
+- **MySql** — datu bāze
 - **Laravel Breeze** — autentifikācijas sistēma
 - **Composer & NPM** — atkarību pārvaldība
 
@@ -42,5 +42,7 @@ php artisan key:generate
 php artisan migrate
 
 php artisan db:seed
+
+php artisan storage:link
 
 php artisan serve
